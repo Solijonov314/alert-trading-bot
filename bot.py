@@ -1,7 +1,9 @@
 import os
 import requests
 import time
+import threading
 from datetime import datetime, timezone
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
 TOKEN   = os.environ.get("TOKEN")
 CHAT_ID = os.environ.get("CHAT_ID")
@@ -97,13 +99,6 @@ def check():
         )
         send_telegram(msg)
 
-print("Bot ishga tushdi...")
-send_telegram("✅ Bot ishga tushdi. Setup kuzatilmoqda...")
-
-# Render uchun HTTP server
-from http.server import HTTPServer, BaseHTTPRequestHandler
-import threading
-
 class Handler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
@@ -116,6 +111,10 @@ def run_server():
     HTTPServer(("0.0.0.0", 10000), Handler).serve_forever()
 
 threading.Thread(target=run_server, daemon=True).start()
+
+print("Bot ishga tushdi...")
+send_telegram("✅ Bot ishga tushdi. Setup kuzatilmoqda...")
+
 while True:
     try:
         check()
