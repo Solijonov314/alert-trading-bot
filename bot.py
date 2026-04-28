@@ -109,7 +109,7 @@ class Handler(BaseHTTPRequestHandler):
 
 def run_server():
     port = int(os.environ.get("PORT", 10000))
-HTTPServer(("0.0.0.0", port), Handler).serve_forever()
+    HTTPServer(("0.0.0.0", port), Handler).serve_forever()
 
 threading.Thread(target=run_server, daemon=True).start()
 
